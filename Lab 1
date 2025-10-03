@@ -1,0 +1,116 @@
+import os
+import time
+
+Black = '\u001b[30m'
+Red = '\u001b[31m'
+Green = '\u001b[32m'
+Yellow = '\u001b[33m'
+Blue = '\u001b[34m'
+Magenta = '\u001b[35m'
+Cyan = '\u001b[36m'
+White = '\u001b[37m'
+Reset = '\u001b[0m'
+
+Background_Black = '\u001b[40m'
+Background_Red = '\u001b[41m'
+Background_Green = '\u001b[42m'
+Background_Yellow = '\u001b[43m'
+Background_Blue = '\u001b[44m'
+Background_Magenta = '\u001b[45m'
+Background_Cyan = '\u001b[46m'
+Background_White = '\u001b[47m'
+
+def flag():
+    size = 8
+
+    l = [''] * (size * 3)
+
+    for y in range(size * 3):
+        for x in range(size * 5):
+            if (y - (size * 3) // 2)**2 + (x - (size * 5) * 9 // 20)**2 <= ((size * 5) // 5)**2:
+                l[y]+=(f'{Background_Red}{'  '}{Reset}')
+            else:
+                l[y]+=(f'{Background_Green}{'  '}{Reset}')
+
+    for y in l:
+        print(y)
+
+def uzor():
+    n_uzor = 5
+    size = 10
+    width_symbol = 5
+
+    uzor = [[1,1,1,1,0],
+            [1,0,0,1,0],
+            [1,0,1,1,0],
+            [1,0,1,0,0],
+            [1,0,1,1,1]]
+
+    for y in range(size):
+        for n in range(n_uzor):
+            for i in uzor[y//(size//len(uzor))]:
+                if i:
+                    print(f'{Background_Black}{' ' * width_symbol}',end='')
+                else:
+                    print(f'{Background_White}{' ' * width_symbol}',end='')
+        print(Reset)
+
+def graph():
+    size = 20
+    width_symbol = 1
+
+    l = [''] * (size)
+
+    for y in range(size):
+        for x in range(size):
+            if y == 2 * x + 3:
+                l[y]+=(f'{Background_Red}{'  '}{Reset}')
+            else:
+                l[y]+=(f'{Background_Green}{'  '}{Reset}')
+
+    l = l[::-1] #инвертация оси y
+
+    for z in l:
+        print(z)
+
+def chart():
+    max_len = 100
+
+    f = open('sequence.txt')
+    l = []
+    for i in f:
+        l.append(float(i.replace('\n','')))
+
+    less_125 = 0
+    more_125 = 0
+
+    for i in range(len(l)):
+        if i <= 125:
+            less_125 += abs(l[i])
+        else:
+            more_125 += abs(l[i])
+
+    if less_125 <= more_125:
+        print(f'{Background_Red}{' ' * int(less_125 * max_len // more_125)}{Reset}')
+        print(f'{Background_Blue}{' ' * max_len}{Reset}')
+    else:
+        print(f'{Background_Red}{' ' * max_len}{Reset}')
+        print(f'{Background_Blue}{' ' * int(more_125 * max_len // less_125)}{Reset}')
+
+    print()
+    print(f'{Background_Red}{'Сумма по модулю первых 125 чисел'}{Reset}') 
+    print(f'{Background_Blue}{'Сумма по модулю вторых 125 чисел'}{Reset}')
+
+t = 5
+
+os.system("cls")
+flag()
+time.sleep(t)
+os.system("cls")
+uzor()
+time.sleep(t)
+os.system("cls")
+graph()
+time.sleep(t)
+os.system("cls")
+chart()
